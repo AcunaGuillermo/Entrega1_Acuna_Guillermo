@@ -1,10 +1,10 @@
 from django import forms
-import datetime
+
 
 
 class EquipoFormulario(forms.Form):
     nombre = forms.CharField(max_length=50)
-    pais = forms.IntegerField()
+    pais = forms.CharField(max_length=50)
 
 
 class JugadorFormulario(forms.Form):   

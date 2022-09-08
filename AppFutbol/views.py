@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect, reverse
-from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-
+import datetime
 from AppFutbol.models import Jugador, Equipo, Posicion
 from AppFutbol.forms import EquipoFormulario, JugadorFormulario, PosicionFormulario
 
@@ -22,9 +22,10 @@ def crear_equipo(request):
 
         if formulario.is_valid():
             data = formulario.cleaned_data
-            equipo = equipo(nombre=data['nombre'], pais=data['pais'])
+            equipo = Equipo(**data)
             equipo.save()
-            return render(request, "AppFutbol/inicio.html", {"exitoso": True})
+            return redirect(reverse('equipo'))
+            # return render(request, "AppFutbol/inicio.html", {"exitoso": True})
     else:  # GET
         formulario = EquipoFormulario()  # Formulario vacio para construir el html
     return render(request, "AppFutbol/form_equipo.html", {"formulario": formulario})
@@ -35,12 +36,20 @@ def busqueda_equipos(request):
 
 
 def buscar_equipo(request):
-    if request.GET["pais"]:
-        pais = request.GET["pais"]
-        equipos = Equipo.objects.filter(pais__icontains=pais)
+    if request.GET["nombre"]:
+        nombre = request.GET["nombre"]
+        equipos = Equipo.objects.filter(nombre__icontains=nombre)
         return render(request, "AppFutbol/equipo.html", {'equipos': equipos})
     else:
         return render(request, "AppFutbol/equipo.html", {'equipos': []})
+
+def eliminar_equipo(request, id):
+    equipo = Equipo.objects.get(id=id)
+    borrado_id = equipo.id
+    equipo.delete()
+    url_final = f"{reverse('equipo')}?borrado={borrado_id}"
+
+    return redirect(url_final)
 
 
 # Vistas de jugadores
@@ -58,7 +67,7 @@ def eliminar_jugador(request, id):
     jugador = Jugador.objects.get(id=id)
     borrado_id = jugador.id
     jugador.delete()
-    url_final = f"{reverse('jugadores')}?borrado={borrado_id}"
+    url_final = f"{reverse('jugador')}?borrado={borrado_id}"
 
     return redirect(url_final)
 
@@ -71,7 +80,8 @@ def crear_jugador(request):
             data = formulario.cleaned_data
             jugador = Jugador(**data)
             jugador.save()
-            return redirect(reverse('jugadores'))
+            
+            return redirect(reverse('jugador'))
     else:  
         formulario = JugadorFormulario()  # Formulario vacio para construir el html
     return render(request, "AppFutbol/form_jugador.html", {"formulario": formulario})
@@ -89,16 +99,16 @@ def editar_jugador(request, id):
 
             jugador.nombre = data['nombre']
             jugador.apellido = data['apellido']
-            jugador.fecha_nacimiento = data['fecha de nacimiento']
+            jugador.fecha_nacimiento = data['fecha']
 
             jugador.save()
 
-            return redirect(reverse('jugadores'))
+            return redirect(reverse('jugador'))
     else:  # GET
         inicial = {
             'nombre': jugador.nombre,
             'pais': jugador.apellido,
-            'fecha de nacimiento': jugador.fecha_nacimiento,
+            'fecha': jugador.fecha_nacimiento,
             
         }
         formulario = JugadorFormulario(initial=inicial)
@@ -119,7 +129,7 @@ def eliminar_posicion(request, id):
     posicion = Posicion.objects.get(id=id)
     borrado_id = Posicion.id
     posicion.delete()
-    url_final = f"{reverse('posiciones')}?borrado={borrado_id}"
+    url_final = f"{reverse('posicion')}?borrado={borrado_id}"
 
     return redirect(url_final)
 
@@ -132,7 +142,7 @@ def crear_posicion(request):
             data = formulario.cleaned_data
             posicion = Posicion(**data)
             posicion.save()
-            return redirect(reverse('posiciones'))
+            return redirect(reverse('posicion'))
     else:  
         formulario = PosicionFormulario()  # Formulario vacio para construir el html
     return render(request, "AppFutbol/form_posicion.html", {"formulario": formulario})

@@ -8,6 +8,7 @@ urlpatterns = [
     path('crear-equipo/', views.crear_equipo, name="crear_equipo"),
     path('busqueda-equipo-form/', views.busqueda_equipos, name="busqueda_equipo_form"),
     path('busqueda-equipo/', views.buscar_equipo, name="busqueda_equipo"),
+    path('eliminar-equipo/<int:id>/', views.eliminar_equipo, name="eliminar_equipo"),
     # URLs de Jugadores
     path('Jugadores/', views.jugadores, name="jugador"),
     path('crear-jugador/', views.crear_jugador, name="crear_jugador"),

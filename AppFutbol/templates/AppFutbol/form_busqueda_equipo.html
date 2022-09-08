@@ -3,8 +3,8 @@
 {% block contenido_base %}
 <form action="{% url 'busqueda_equipo' %}" method="GET">
   {% csrf_token %}
-  <span>Comision:
-    <input type="integer" name="pais">
+  <span>Equipo:
+    <input type="integer" name="nombre">
   </span>
   <input type="submit" value="Buscar" />
 </form>
