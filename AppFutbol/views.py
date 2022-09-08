@@ -1,7 +1,6 @@
+
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-import datetime
 from AppFutbol.models import Jugador, Equipo, Posicion
 from AppFutbol.forms import EquipoFormulario, JugadorFormulario, PosicionFormulario
 
@@ -25,9 +24,9 @@ def crear_equipo(request):
             equipo = Equipo(**data)
             equipo.save()
             return redirect(reverse('equipo'))
-            # return render(request, "AppFutbol/inicio.html", {"exitoso": True})
-    else:  # GET
-        formulario = EquipoFormulario()  # Formulario vacio para construir el html
+            
+    else:  
+        formulario = EquipoFormulario() 
     return render(request, "AppFutbol/form_equipo.html", {"formulario": formulario})
 
 
@@ -55,7 +54,7 @@ def eliminar_equipo(request, id):
 # Vistas de jugadores
 
 def jugadores(request):
-    jugadores = Jugador.objects.all()  # trae todos los jugadores
+    jugadores = Jugador.objects.all() 
     contexto = {"jugadores": jugadores}
     borrado = request.GET.get('borrado', None)
     contexto['borrado'] = borrado
@@ -83,12 +82,12 @@ def crear_jugador(request):
             
             return redirect(reverse('jugador'))
     else:  
-        formulario = JugadorFormulario()  # Formulario vacio para construir el html
+        formulario = JugadorFormulario()  
     return render(request, "AppFutbol/form_jugador.html", {"formulario": formulario})
 
 
 def editar_jugador(request, id):
-    # Recibe param jugador id, con el que obtenemos el jugador
+    
     jugador = Jugador.objects.get(id=id)
 
     if request.method == 'POST':
@@ -96,19 +95,16 @@ def editar_jugador(request, id):
 
         if formulario.is_valid():
             data = formulario.cleaned_data
-
-            jugador.nombre = data['nombre']
-            jugador.apellido = data['apellido']
-            jugador.fecha_nacimiento = data['fecha']
+            jugador = Jugador(**data)
 
             jugador.save()
 
             return redirect(reverse('jugador'))
-    else:  # GET
+    else: 
         inicial = {
             'nombre': jugador.nombre,
             'pais': jugador.apellido,
-            'fecha': jugador.fecha_nacimiento,
+            'fecha de nacimiento': jugador.fecha_nacimiento,
             
         }
         formulario = JugadorFormulario(initial=inicial)
@@ -117,7 +113,7 @@ def editar_jugador(request, id):
     # Vistas de posiciones
 
 def posiciones(request):
-    posiciones = Posicion.objects.all()  # trae todos los jugadores
+    posiciones = Posicion.objects.all()  
     contexto = {"posiciones": posiciones}
     borrado = request.GET.get('borrado', None)
     contexto['borrado'] = borrado
@@ -127,7 +123,7 @@ def posiciones(request):
 
 def eliminar_posicion(request, id):
     posicion = Posicion.objects.get(id=id)
-    borrado_id = Posicion.id
+    borrado_id = posicion.id
     posicion.delete()
     url_final = f"{reverse('posicion')}?borrado={borrado_id}"
 
@@ -144,12 +140,12 @@ def crear_posicion(request):
             posicion.save()
             return redirect(reverse('posicion'))
     else:  
-        formulario = PosicionFormulario()  # Formulario vacio para construir el html
+        formulario = PosicionFormulario()  
     return render(request, "AppFutbol/form_posicion.html", {"formulario": formulario})
 
 
 def editar_posicion(request, id):
-    # Recibe param posicion id, con el que obtenemos la posicion
+    
     posicion = Posicion.objects.get(id=id)
 
     if request.method == 'POST':
@@ -164,7 +160,7 @@ def editar_posicion(request, id):
             posicion.save()
 
             return redirect(reverse('posicion'))
-    else:  # GET
+    else:  
         inicial = {
             'nombre': posicion.posicion,
             'equipo': posicion.equipo,

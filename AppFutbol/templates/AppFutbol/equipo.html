@@ -1,6 +1,5 @@
 {% extends "AppFutbol/plantilla_base.html" %}
 
-
 {% block style_block %}
 <style>
   table.coder-table {
@@ -11,13 +10,21 @@
     border:1px solid;
     padding:5px 10px;
   }
+  .eliminado {
+    background-color: red;
+  }
 </style>
 {% endblock style_block %}
 
+
 {% block contenido_base %}
 
+{% if borrado %}
+<div class="eliminado">Fue borrado exitosamente el equipo de ID: {{ borrado }}</div>
+{% endif %}
+
 <h1>Equipo</h1>
-<a href="{% url 'crear_equipo' %}">Crear Equipo!</a>
+<a href="{% url 'crear_equipo' %}">Crear Equipo</a>
 <br>
 <a href="{% url 'busqueda_equipo_form' %}">Buscar Equipo</a>
 

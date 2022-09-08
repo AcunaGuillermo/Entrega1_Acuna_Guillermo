@@ -10,7 +10,7 @@ class EquipoFormulario(forms.Form):
 class JugadorFormulario(forms.Form):   
     nombre = forms.CharField(max_length=30)
     apellido = forms.CharField(max_length=30)
-    fecha_nacimiento = forms.DateField(required=False)
+    fecha_nacimiento = forms.DateField(required=True)
 
 class PosicionFormulario(forms.Form):   
     posicion = forms.CharField(max_length=30)

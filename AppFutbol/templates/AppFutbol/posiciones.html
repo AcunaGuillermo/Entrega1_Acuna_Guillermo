@@ -16,14 +16,15 @@
 </style>
 {% endblock style_block %}
 
+
 {% block contenido_base %}
 
 {% if borrado %}
-<div class="eliminado">Fue borrado exitosamente el posicion de ID: {{ borrado }}</div>
+<div class="eliminado">Fue borrado exitosamente la posicion de ID: {{ borrado }}</div>
 {% endif %}
 
 <h1>Posiciones</h1>
-<a href="{% url 'crear_posicion' %}">Crear posicion!</a>
+<a href="{% url 'crear_posicion' %}">Crear posicion</a>
 
 <br><br>
 
