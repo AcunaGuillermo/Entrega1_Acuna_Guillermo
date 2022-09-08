@@ -1,0 +1,11 @@
+{% extends "AppFutbol/plantilla_base.html" %}
+
+{% block contenido_base %}
+<form action="{% url 'busqueda_equipo' %}" method="GET">
+  {% csrf_token %}
+  <span>Comision:
+    <input type="integer" name="pais">
+  </span>
+  <input type="submit" value="Buscar" />
+</form>
+{% endblock contenido_base %}

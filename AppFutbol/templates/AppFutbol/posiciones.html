@@ -1,0 +1,53 @@
+{% extends "AppFutbol/plantilla_base.html" %}
+
+{% block style_block %}
+<style>
+  table.coder-table {
+    border:3px solid;
+  }
+  th,
+  td {
+    border:1px solid;
+    padding:5px 10px;
+  }
+  .eliminado {
+    background-color: red;
+  }
+</style>
+{% endblock style_block %}
+
+{% block contenido_base %}
+
+{% if borrado %}
+<div class="eliminado">Fue borrado exitosamente el posicion de ID: {{ borrado }}</div>
+{% endif %}
+
+<h1>Posiciones</h1>
+<a href="{% url 'crear_posicion' %}">Crear posicion!</a>
+
+<br><br>
+
+<table class="coder-table">
+  <tbody>
+    <tr>
+      <th>
+        <strong>Posicion</strong>
+      </th>
+      <th>
+        <strong>Equipo</strong>
+      </th>
+      <th>Editar</th>
+      <th>Eliminar</th>
+    </tr>
+    {% for posicion in posiciones %}
+    <tr>
+      <td>{{posicion.posicion}}</td>
+      <td>{{posicion.equipo}}</td>
+      <td><a href="{% url 'editar_posicion' posicion.id %}">Editar</a></td>
+      <td><a href="{% url 'eliminar_posicion' posicion.id %}">Eliminar</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock contenido_base %}

@@ -1,0 +1,51 @@
+{% extends "AppFutbol/plantilla_base.html" %}
+
+{% block style_block %}
+<style>
+  table.coder-table {
+    border:3px solid;
+  }
+  th,
+  td {
+    border:1px solid;
+    padding:5px 10px;
+  }
+  .eliminado {
+    background-color: red;
+  }
+</style>
+{% endblock style_block %}
+
+{% block contenido_base %}
+
+{% if borrado %}
+<div class="eliminado">Fue borrado exitosamente el jugador de ID: {{ borrado }}</div>
+{% endif %}
+
+<h1>Jugadores</h1>
+<a href="{% url 'crear_jugador' %}">Crear jugador!</a>
+
+<br><br>
+
+<table class="coder-table">
+  <tbody>
+    <tr>
+      <th><strong>Apellido</strong></th>
+      <th><strong>Nombre</strong></th>
+      <th><strong>Fecha de Nacimiento</strong></th>
+      <th>Editar</th>
+      <th>Eliminar</th>
+    </tr>
+    {% for jugador in jugadores %}
+    <tr>
+      <td>{{jugador.apellido}}</td>
+      <td>{{jugador.nombre}}</td>
+      <td>{{jugador.fecha_nacimiento}}</td>
+      <td><a href="{% url 'editar_jugador' jugador.id %}">Editar</a></td>
+      <td><a href="{% url 'eliminar_jugador' jugador.id %}">Eliminar</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock contenido_base %}

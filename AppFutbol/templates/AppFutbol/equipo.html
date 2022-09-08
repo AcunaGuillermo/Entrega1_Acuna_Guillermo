@@ -1,0 +1,45 @@
+{% extends "AppFutbol/plantilla_base.html" %}
+
+{% block style_block %}
+<style>
+  table.coder-table {
+    border:3px solid;
+  }
+  th,
+  td {
+    border:1px solid;
+    padding:5px 10px;
+  }
+</style>
+{% endblock style_block %}
+
+{% block contenido_base %}
+
+<h1>Equipo</h1>
+<a href="{% url 'crear_equipo' %}">Crear Equipo!</a>
+<br>
+<a href="{% url 'busqueda_equipo_form' %}">Buscar Equipo</a>
+
+<br><br>
+<h3>Equipo:</h3>
+
+<table class="coder-table">
+  <tbody>
+    <tr>
+      <th>
+        <strong>Nombre</strong>
+      </th>
+      <th>
+        <strong>Pais</strong>
+      </th>
+    </tr>
+    {% for equipo in equipos %}
+    <tr>
+      <td>{{equipo.nombre}}</td>
+      <td>{{equipo.pais}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock contenido_base %}
